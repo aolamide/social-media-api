@@ -65,7 +65,7 @@ postsByUser = (req, res) => {
 }
 
 isPoster = (req, res, next) => {
-    let isPoster = r eq.post && req.auth && req.post.postedBy._id == req.auth._id;
+    let isPoster = req.post && req.auth && req.post.postedBy._id == req.auth._id;
     if(!isPoster) {
         return res.status(403).json({
             error : 'User is not authorized'
