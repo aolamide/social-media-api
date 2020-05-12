@@ -6,7 +6,13 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import expressValidator from 'express-validator';
 import fs from 'fs';
-// import cors from 'cors';
+import cors from 'cors';
+
+//routes
+import postRoutes  from './routes/post.route';
+import authRoutes  from './routes/auth';
+import userRoutes  from './routes/user.route';
+
 dotenv.config();
 const app = express();
 
@@ -18,11 +24,6 @@ mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true})
 mongoose.connection.on('error', err => {
     console.log(`DB connection error: ${err.message}`)
 });
-
-//routes
-import postRoutes  from './routes/post.route';
-import authRoutes  from './routes/auth';
-import userRoutes  from './routes/user.route';
 
 app.get('/', (req, res) => {
     fs.readFile('docs/apiDocs.json', (err, data) => {
@@ -37,7 +38,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
-// app.use(cors());
+app.use(cors());
 app.use('/', postRoutes);
 app.use('/', authRoutes);
 app.use('/', userRoutes);
